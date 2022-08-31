@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sdut.rbs.dao.RoomDAO">
+
+    <resultMap id="roomInfoMap" type="com.sdut.rbs.entity.Room">
+        <id column="id" property="id"/>
+        <result column="room_name" property="roomName"/>
+        <result column="isMedia" property="isMedia"/>
+        <result column="capacity" property="capacity"/>
+        <result column="img_url" property="imgUrl"/>
+        <result column="isSpecial" property="isSpecial"/>
+        <result column="description" property="description"/>
+        <result column="isPower" property="isPower"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <select id="getAllRoom" resultMap="roomInfoMap">
+        select *
+        from RBS.roomInfo
+    </select>
+
+    <select id="queryRoomByBorrowOptions" parameterType="map" resultMap="roomInfoMap">
+        select *
+        from RBS.roomInfo
+        where isSpecial = #{isSpecial} and id not in(
+            select room_id
+            from RBS.borrowInfo
+            where date = #{date} and time_id = #{timeId}
+        )
+    </select>
+</mapper>

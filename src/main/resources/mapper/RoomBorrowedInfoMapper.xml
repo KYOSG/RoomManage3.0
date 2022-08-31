@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sdut.rbs.dao.RoomBorrowedInfoDAO">
+    <resultMap id="roomInfoMap" type="com.sdut.rbs.entity.RoomBorrowedInfo">
+        <result column="id" property="id"/>
+        <result column="room_id" property="roomId"/>
+        <result column="room_name" property="roomName"/>
+        <result column="username" property="username"/>
+        <result column="user_depart" property="userDepart"/>
+        <result column="time_id" property="timeId"/>
+        <result column="time_name" property="timeName"/>
+        <result column="date" property="date"/>
+        <result column="reason" property="reason"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="is_need_media" property="isNeedMedia"/>
+        <result column="isAdmit" property="isAdmit"/>
+</resultMap>
+
+    <select id="queryRBIByOptions" parameterType="map" resultMap="roomInfoMap">
+        select *
+        from RBS.borrowInfo
+        <where>
+            1=1
+            <if test="date != ''">and date = #{date}</if>
+            <if test="timeId != 0">and time_id = #{timeId}</if>
+            <if test="reason != ''">and reason = #{reason}</if>
+            <if test="roomId != ''">and room_id = #{roomId}</if>
+        </where>
+        order by apply_time desc;
+    </select>
+
+    <!--Operator-->
+    <select id="borrow" parameterType="map" resultMap="roomInfoMap">
+        insert into borrowInfo(room_id, room_name, username, user_depart, time_id, time_name, date, reason, apply_time, is_need_media, is_admit)
+        values (#{roomId}, #{roomName},#{username},#{userDepart},#{timeId},#{timeName},#{date},#{reason},#{applyTime},1,1)
+    </select>
+
+    <select id="queryRBIByTimeAndRoomId" resultType="com.sdut.rbs.entity.RoomBorrowedInfo">
+
+    </select>
+
+    <delete id="cancel">
+        delete from borrowInfo
+        where id = #{id}
+    </delete>
+
+</mapper>
