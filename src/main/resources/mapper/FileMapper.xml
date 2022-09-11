@@ -3,8 +3,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.sdut.rbs.dao.FileDao">
+
+    <resultMap id="picUrlMap" type="com.sdut.rbs.entity.PicEntity">
+        <result property="id" column="id"/>
+        <result column="name" property="name"/>
+        <result column="imgUrl" property="url"/>
+    </resultMap>
+
     <insert id="addTimeTable" parameterType="map">
-        insert into RBS.borrowInfo (room_id, room_name, username, user_depart, time_id, time_name, date, reason, apply_time, is_need_media, is_admit)
-        VALUES (#{roomId},#{roomName},#{username},#{userDepart},#{timeId},#{timeName},#{date},#{reason},#{applyTime},1,1);
+        insert into RBS.borrowInfo (name, time, date, reason, applyDate, isAdmit, roomName)
+        VALUES (#{name},#{time},#{date},#{reason},#{applyDate},1,#{roomName});
     </insert>
+
+    <insert id="addPic" parameterType="map">
+        insert into RBS.picUrl(name, url) VALUES (#{map.name},#{map.url});
+    </insert>
+
+    <delete id="removePic">
+        delete from RBS.picUrl where url = #{url};
+    </delete>
 </mapper>

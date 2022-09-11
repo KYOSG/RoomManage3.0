@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sdut.rbs.dao.TimeOptionDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.sdut.rbs.entity.TimeOptionEntity" id="timeOptionMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="getAllTime" resultMap="timeOptionMap">
+        select * from RBS.timeOption;
+    </select>
+
+    <insert id="add">
+        insert into RBS.timeOption(name)values (#{name});
+    </insert>
+
+    <delete id="remove">
+        delete from RBS.timeOption where id = #{id};
+    </delete>
+
+</mapper>

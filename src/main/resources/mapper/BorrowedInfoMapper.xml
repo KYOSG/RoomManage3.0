@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sdut.rbs.dao.BorrowedInfoDao">
+    <resultMap id="borrowInfoMap" type="com.sdut.rbs.entity.BorrowInfoEntity">
+        <result column="id" property="id"/>
+        <result column="roomName" property="roomName"/>
+        <result column="name" property="name"/>
+        <result column="time" property="time"/>
+        <result column="date" property="date"/>
+        <result column="reason" property="reason"/>
+        <result column="applyDate" property="applyDate"/>
+        <result column="isAdmit" property="isAdmit"/>
+</resultMap>
+
+    <select id="queryRBIByOptions" parameterType="map" resultMap="borrowInfoMap">
+        select *
+        from RBS.borrowInfo
+        <where>
+            <if test="map.date != ''">and date = #{map.date}</if>
+            <if test="map.time != ''">and time = #{map.time}</if>
+        </where>
+    </select>
+
+    <!--Operator-->
+    <select id="notBorrowedYet" resultMap="com.sdut.rbs.dao.RoomDao.roomInfoMap">
+        select * from room where name not in (
+            select roomName
+            from borrowInfo
+            where date = #{date}
+              and
+                time in (
+                     <foreach collection="timeList" item="item">
+                         #{item}
+                     </foreach>
+                    )
+            )
+    </select>
+
+    <select id="isBorrowed" resultMap="borrowInfoMap">
+        select * from borrowInfo where date = #{date} and time = #{time} and roomName = #{roomName};
+    </select>
+
+    <select id="borrow" parameterType="map" resultMap="borrowInfoMap">
+        insert into borrowInfo(name, time, date, reason, applyDate, isAdmit, roomName)
+        values (#{name}, #{time},#{date},#{reason},#{applyDate},0,#{roomName})
+    </select>
+
+    <delete id="cancel">
+        delete from borrowInfo
+        where id = #{id}
+    </delete>
+
+</mapper>

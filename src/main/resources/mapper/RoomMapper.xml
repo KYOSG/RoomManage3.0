@@ -2,32 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.sdut.rbs.dao.RoomDAO">
+<mapper namespace="com.sdut.rbs.dao.RoomDao">
 
-    <resultMap id="roomInfoMap" type="com.sdut.rbs.entity.Room">
-        <id column="id" property="id"/>
-        <result column="room_name" property="roomName"/>
-        <result column="isMedia" property="isMedia"/>
+    <resultMap id="roomInfoMap" type="com.sdut.rbs.entity.RoomEntity">
+        <result property="id" column="id"/>
+        <result column="name" property="name"/>
         <result column="capacity" property="capacity"/>
-        <result column="img_url" property="imgUrl"/>
-        <result column="isSpecial" property="isSpecial"/>
+        <result column="imgUrl" property="imgUrl"/>
         <result column="description" property="description"/>
-        <result column="isPower" property="isPower"/>
-        <result column="state" property="state"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <select id="getAllRoom" resultMap="roomInfoMap">
         select *
-        from RBS.roomInfo
+        from RBS.room
     </select>
+
+    <insert id="addRoom" parameterType="map">
+        insert into room(name, capacity, description, status, imgUrl)
+        values (#{name},#{capacity},#{description},#{status},#{imgUrl});
+    </insert>
+
+    <delete id="remove">
+        delete from room where id = #{id};
+    </delete>
 
     <select id="queryRoomByBorrowOptions" parameterType="map" resultMap="roomInfoMap">
         select *
-        from RBS.roomInfo
-        where isSpecial = #{isSpecial} and id not in(
-            select room_id
+        from RBS.room
+        where name not in(
+            select borrowInfo.roomName
             from RBS.borrowInfo
-            where date = #{date} and time_id = #{timeId}
+            where date = #{date} and time = #{time}
         )
     </select>
+
+    <select id="getRoomById" resultMap="roomInfoMap">
+        select * from room where id = #{id};
+    </select>
+
+    <update id="updateRoom" parameterType="map">
+        update room
+        set name = #{name}, capacity = #{capacity}, description = #{description}, status = #{status}, imgUrl = #{imgUrl}
+        where id = #{id};
+    </update>
 </mapper>

@@ -7,4 +7,6 @@ import java.util.Map;
 @Mapper
 public interface FileDao {
     public void addTimeTable(Map<String,String> map);
+
+    public void addPic(Map<String,String> map);
 }

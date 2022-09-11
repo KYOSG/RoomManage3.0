@@ -1,9 +1,8 @@
 package com.sdut.rbs.service.impl;
 
-import com.sdut.rbs.dao.RoomBorrowedInfoDAO;
-import com.sdut.rbs.dao.RoomDAO;
-import com.sdut.rbs.entity.Room;
-import com.sdut.rbs.entity.RoomBorrowedInfo;
+import com.sdut.rbs.dao.BorrowedInfoDao;
+import com.sdut.rbs.dao.RoomDao;
+import com.sdut.rbs.entity.RoomEntity;
 import com.sdut.rbs.service.RoomService;
 import com.sdut.rbs.utils.ResultVo;
 import org.springframework.context.annotation.Scope;
@@ -18,16 +17,14 @@ import java.util.Map;
 @Scope("singleton")
 public class RoomServiceImpl implements RoomService {
     @Resource
-    private RoomDAO roomDAO;
-    @Resource
-    private RoomBorrowedInfoDAO roomBorrowInfoDAO;
+    private RoomDao roomDAO;
 
     /*
     * 查询教室信息
     * */
     @Override
     public  ResultVo getAllRoom(){
-        List<Room> roomList = roomDAO.getAllRoom();
+        List<RoomEntity> roomList = roomDAO.getAllRoom();
         if (roomList.size() == 0){
             return ResultVo.error("未查询到教室信息");
         }else {
@@ -38,7 +35,7 @@ public class RoomServiceImpl implements RoomService {
     }
     @Override
     public ResultVo queryRoomByBorrowOptions(String date,int timeId,int isSpecial){
-        List<Room> room = roomDAO.queryRoomByBorrowOptions(date,timeId,isSpecial);
+        List<RoomEntity> room = roomDAO.queryRoomByBorrowOptions(date,timeId,isSpecial);
 
         if (room == null){
             return ResultVo.error("该条件下没有空闲教室");
@@ -48,34 +45,44 @@ public class RoomServiceImpl implements RoomService {
             return ResultVo.ok(map);
         }
     }
-    /*
-     * 查询教室借用信息
-     * */
-    @Override
-    public ResultVo  queryRBIByOptions(Map<String,String> map,int pageNum,int pageSize) {
-        List<RoomBorrowedInfo> RBI = roomBorrowInfoDAO.queryRBIByOptions(map);
-        Map<String,Object> res = new HashMap<>();
-        res.put("RBI",RBI);
-        return ResultVo.ok(res);
-    }
 
     @Override
-    public ResultVo borrow(Map<String,String>map){
-        synchronized (this) {//线程锁
-//            int timeId = Integer.parseInt(map.get("timeID"));
-//            String date = map.get("date");
-//            String roomId = map.get("roomId");
-//            RoomBorrowedInfo RBI = roomBorrowInfoDAO.queryRBIByTimeAndRoomId(timeId, date, roomId);
-
-
-            roomBorrowInfoDAO.borrow(map);
-            return ResultVo.ok("登记成功");
+    public ResultVo addRoom(Map<String, String> map) {
+        try{
+            roomDAO.addRoom(map);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResultVo.error(e.toString());
         }
+        return ResultVo.ok();
     }
 
     @Override
-    public ResultVo cancel(int id) {
-        roomBorrowInfoDAO.cancel(id);
+    public ResultVo remove(int id) {
+        try{
+            roomDAO.remove(id);
+        }catch (Exception e){
+            return ResultVo.error(e.toString());
+        }
+        return ResultVo.ok();
+    }
+
+    @Override
+    public ResultVo getRoomById(int id) {
+        Map<String,Object> map = new HashMap<>();
+        RoomEntity room = roomDAO.getRoomById(id);
+        map.put("room",room);
+
+        return ResultVo.ok(map);
+    }
+
+    public ResultVo updateRoom(Map<String,String> map){
+        try{
+            roomDAO.updateRoom(map);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResultVo.error(e.toString());
+        }
         return ResultVo.ok();
     }
 }

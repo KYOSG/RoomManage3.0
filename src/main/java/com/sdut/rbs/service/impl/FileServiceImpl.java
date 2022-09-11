@@ -8,6 +8,7 @@ import com.sdut.rbs.utils.ResultVo;
 import com.sdut.rbs.utils.SFFileUtils;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -101,4 +102,35 @@ public class FileServiceImpl implements FileService {
 
         return ResultVo.ok();
     }
+
+    /*@Override
+    public ResultVo addPic(MultipartFile file, String name) {
+        if (file.isEmpty()) {
+            return ResultVo.error("上传失败");
+        }
+        SFFileUtils fileUtils = new SFFileUtils(file);
+        //文件名称
+        String fileName = file.getOriginalFilename();
+        //允许上传文件名的后缀
+        List<String> FILE_WHILE_EXT_LIST = Arrays.asList("JPG","PNG","JPEG");
+        Assert.notNull(fileName,"File name can not be empty");
+        String fileExtName = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (FILE_WHILE_EXT_LIST.contains(fileExtName.toUpperCase())){
+            //上传文件的位置
+            //SAVE_PATH  E:/liangd/Java/stmg-front/src/main/webapp
+            //IMG_PATH  /upload/
+            String filePath = CommonPath.SAVE_PATH.getValue() + CommonPath.IMG_PATH.getValue();
+            //全路径 E:/liangd/Java/stmg-front/src/main/webapp/upload/1.jpg
+            File dest = new File(filePath + fileName);
+            //数据库保存地址 /upload/1.jpg
+            String imgPath = CommonPath.IMG_PATH.getValue() + fileName;
+            try {
+                file.transferTo(dest);
+                return ResultVo.ok(imgPath);
+            } catch (IOException e) {
+                return ResultVo.error("上传失败");
+            }
+        }
+        return ResultVo.error("图片格式不正确");
+    }*/
 }

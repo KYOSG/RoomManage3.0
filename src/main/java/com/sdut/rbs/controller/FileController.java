@@ -21,4 +21,10 @@ public class FileController {
     public ResultVo importTimeTable(MultipartFile file,@RequestPart("startDate") String startDate, @RequestPart("roomId") String roomId) throws IOException, ParseException {
         return fileService.importTimeTable(file,startDate,roomId);
     }
+
+    /*@PostMapping("/addPic")
+    @ResponseBody
+    public ResultVo addPic(MultipartFile file,@RequestPart("roomName") String name) throws IOException, ParseException {
+        return fileService.addPic(file,name);
+    }*/
 }

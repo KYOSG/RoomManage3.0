@@ -1,7 +1,7 @@
 package com.sdut.rbs.service.impl;
 
 import com.sdut.rbs.dao.UserDAO;
-import com.sdut.rbs.entity.User;
+import com.sdut.rbs.entity.UsersEntity;
 import com.sdut.rbs.service.UserService;
 import com.sdut.rbs.utils.ResultVo;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import org.springframework.util.Base64Utils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,9 +18,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserDAO userDAO;
     @Override
-    public ResultVo checkLogin(String userId, String pwd){
+    public ResultVo checkLogin(String id, String pwd){
         //查询用户信息
-        User user = userDAO.checkLogin(userId);
+        UsersEntity user = userDAO.checkLogin(id);
         //判断
         if (user == null){
             //用户名不存在
@@ -39,5 +40,54 @@ public class UserServiceImpl implements UserService {
                 return ResultVo.error("密码错误");
             }
         }
+    }
+
+    @Override
+    public ResultVo getAllUser() {
+        List<UsersEntity> usersEntities = userDAO.getAllUser();
+        Map<String,Object> map = new HashMap<>();
+        map.put("userList",usersEntities);
+        return ResultVo.ok(map);
+    }
+
+    @Override
+    public ResultVo addUser(List<UsersEntity> list) {
+        try{
+            userDAO.addUser(list);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResultVo.error(e.toString());
+        }
+        return ResultVo.ok();
+    }
+
+    @Override
+    public ResultVo getUserByName(String name) {
+        UsersEntity usersEntity = userDAO.getUserByName(name);
+        Map<String,Object> map = new HashMap<>();
+        map.put("user",usersEntity);
+        return ResultVo.ok(map);
+    }
+
+    @Override
+    public ResultVo updateUser(Map<String, String> map) {
+        try{
+            userDAO.updateUser(map);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResultVo.error(e.toString());
+        }
+        return ResultVo.ok();
+    }
+
+    @Override
+    public ResultVo remove(String id) {
+        try{
+            userDAO.remove(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResultVo.error(e.toString());
+        }
+        return ResultVo.ok();
     }
 }

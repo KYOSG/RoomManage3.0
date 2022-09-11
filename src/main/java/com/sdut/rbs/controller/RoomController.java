@@ -62,42 +62,42 @@ public class RoomController {
 
         return roomService.queryRoomByBorrowOptions(date,timeId,isSpecial);
     }
-    //-------------SearchRoomBorrowInfo-------------
-    @RequestMapping(value = "/queryRBIByOptions",method = RequestMethod.POST)
-    public ResultVo queryRBIByOptions(@RequestBody JSONObject jsonParam) {
-        Map<String,String> map = new HashMap<>();
-        map.put("date",jsonParam.getString("date"));
-        map.put("reason",jsonParam.getString("reason"));
-        map.put("timeId",jsonParam.getString("timeId"));
-        map.put("roomId",jsonParam.getString("roomId"));
-        int pageNum = 1;
-        int pageSize = 50;
-        return roomService.queryRBIByOptions(map,pageNum,pageSize);
-    }
 
-    //---------------RoomBorrowOperator---------------
-    @PostMapping(value = "/borrow")//等价于RequestMapping(value = "/borrow/{id}", method = RequestMethod.POST)
+    @PostMapping("/addRoom")
     @ResponseBody
-    public ResultVo borrowRoom(@RequestBody JSONObject jsonObject){
+    public ResultVo addRoom(@RequestBody JSONObject jsonObject){
         Map<String,String> map = new HashMap<>();
-        map.put("date",jsonObject.getString("date"));
-        map.put("roomId",jsonObject.getString("roomId"));
-        map.put("roomName",jsonObject.getString("roomName"));
-        map.put("timeId",jsonObject.getString("timeId"));
-        map.put("timeName",jsonObject.getString("timeName"));
-        map.put("username",jsonObject.getString("username"));
-        map.put("userDepart",jsonObject.getString("userDepart"));
-
-        map.put("reason",jsonObject.getString("reason"));
-        map.put("applyTime",jsonObject.getString("applyTime"));
-        return roomService.borrow(map);
+        map.put("name",jsonObject.getString("name"));
+        map.put("capacity",jsonObject.getString("capacity"));
+        map.put("description",jsonObject.getString("description"));
+        map.put("status",jsonObject.getString("status"));
+        map.put("imgUrl",jsonObject.getString("imgUrl"));
+        return roomService.addRoom(map);
     }
 
-    @GetMapping( "/cancel")
+    @GetMapping("/remove")
     @ResponseBody
-    public ResultVo cancel(@RequestParam int id){
-        return roomService.cancel(id);
+    public ResultVo remove(@RequestParam int id){
+        return roomService.remove(id);
     }
 
+    @GetMapping("/getRoomById")
+    @ResponseBody
+    public ResultVo getRoomById(@RequestParam int id){
+        return roomService.getRoomById(id);
+    }
+
+    @PostMapping("/updateRoom")
+    @ResponseBody
+    public ResultVo updateRoom(@RequestBody JSONObject jsonObject){
+        Map<String,String> map = new HashMap<>();
+        map.put("id",jsonObject.getString("id"));
+        map.put("name",jsonObject.getString("name"));
+        map.put("capacity",jsonObject.getString("capacity"));
+        map.put("description",jsonObject.getString("description"));
+        map.put("status",jsonObject.getString("status"));
+        map.put("imgUrl",jsonObject.getString("imgUrl"));
+        return roomService.updateRoom(map);
+    }
 }
 

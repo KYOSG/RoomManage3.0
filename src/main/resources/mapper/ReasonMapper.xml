@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sdut.rbs.dao.ReasonDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.sdut.rbs.entity.ReasonEntity" id="reasonMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="getAllReason" resultMap="reasonMap">
+        select * from RBS.reason;
+    </select>
+
+    <insert id="add">
+        insert into RBS.reason(name)values (#{name});
+    </insert>
+
+    <delete id="remove">
+        delete from RBS.reason where id = #{id};
+    </delete>
+
+</mapper>

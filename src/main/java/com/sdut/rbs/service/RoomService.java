@@ -11,11 +11,9 @@ public interface RoomService {
 
     public ResultVo queryRoomByBorrowOptions(String date,int timeId,int isSpecial);
 
-    //-------------SearchRoomBorrowInfo-------------
-    public ResultVo  queryRBIByOptions(Map<String,String> map,int pageNum,int pageSize);//该按条件查询教室
-    //-------------RoomBorrowOperate-------------
-    public ResultVo borrow (Map<String,String> map);
+    public ResultVo addRoom(Map<String,String> map);
+    public ResultVo remove(int id);
+    public ResultVo getRoomById(int id);
 
-
-    public ResultVo cancel (int id);//借用记录id
+    public ResultVo updateRoom(Map<String,String> map);
 }

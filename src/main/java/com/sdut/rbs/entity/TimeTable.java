@@ -27,26 +27,26 @@ public class TimeTable{
 
         String tt = new String(this.timeName);
         switch (tt) {
-            case "1-2节" -> {
+            case "1-2节":
                 this.timeName = "第一、二节";
                 this.timeId = 1;
-            }
-            case "3-4节" -> {
-                timeName = "第三、四节";
-                this.timeId = 2;
-            }
-            case "5-6节" -> {
-                timeName = "第五、六节";
-                this.timeId = 3;
-            }
-            case "7-8节" -> {
-                timeName = "第七、八节";
-                this.timeId = 4;
-            }
-            case "9-10" -> {
-                timeName = "第九、十节";
-                this.timeId = 5;
-            }
+                break;
+            case "3-4":
+                this.timeName = "第三、四节";
+                this.timeId = 1;
+                break;
+            case "5-6节":
+                this.timeName = "第五、六节";
+                this.timeId = 1;
+                break;
+            case "7-8节":
+                this.timeName = "第七、八节";
+                this.timeId = 1;
+                break;
+            case "9-10节":
+                this.timeName = "第九、十节";
+                this.timeId = 1;
+                break;
         }
 
         String startWeekTemp = temp[1].substring(temp[1].length()-4,temp[1].length()-3);
