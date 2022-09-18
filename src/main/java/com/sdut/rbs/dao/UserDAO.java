@@ -8,11 +8,12 @@ import java.util.Map;
 
 @Mapper
 public interface UserDAO {
-    public UsersEntity checkLogin(String Id);
+    public UsersEntity getUserById(String Id);
 
     public List<UsersEntity> getAllUser();
     public void addUser(List<UsersEntity> list);
     public UsersEntity getUserByName(String name);
     public void updateUser(Map<String,String> map);
     public void remove(String id);
+    public void changePwd(String id,String pwd);
 }

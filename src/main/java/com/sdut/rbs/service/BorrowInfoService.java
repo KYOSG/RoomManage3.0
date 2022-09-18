@@ -17,7 +17,10 @@ import java.util.Map;
 public interface BorrowInfoService {
     public ResultVo queryRBIByOptions(Map<String,String> map, int pageNum, int pageSize);//该按条件查询教室
     public ResultVo notBorrowedYet(List<String> timeList, String date);
-    public int borrow (Map<String,String> map);
+    public int isBorrowed (Map<String,String> map);
+    public ResultVo borrow (Map<String,String> map);
     public ResultVo cancel (int id);//借用记录id
+
+
 }
 

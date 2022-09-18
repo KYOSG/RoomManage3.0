@@ -18,7 +18,7 @@
             </foreach>
     </insert>
 
-    <select id="checkLogin" resultMap="userMap">
+    <select id="getUserById" resultMap="userMap">
         select *
         from users
         where id = #{id}
@@ -41,4 +41,8 @@
     <delete id="remove">
         delete from users where id = #{id};
     </delete>
+
+    <update id="changePwd">
+        update users set password = #{pwd} where id = #{id}
+    </update>
 </mapper>

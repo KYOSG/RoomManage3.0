@@ -13,4 +13,5 @@ public interface UserService {
     public ResultVo getUserByName(String name);
     public ResultVo updateUser(Map<String,String> map);
     public ResultVo remove(String id);
+    public ResultVo changePassword(String id,String oldPwd,String newPwd);
 }

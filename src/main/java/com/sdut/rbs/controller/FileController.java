@@ -18,8 +18,8 @@ public class FileController {
 
     @PostMapping("/importTimeTable")
     @ResponseBody
-    public ResultVo importTimeTable(MultipartFile file,@RequestPart("startDate") String startDate, @RequestPart("roomId") String roomId) throws IOException, ParseException {
-        return fileService.importTimeTable(file,startDate,roomId);
+    public ResultVo importTimeTable(MultipartFile file,@RequestPart("startDate") String startDate, @RequestPart("roomName") String roomName) throws IOException, ParseException {
+        return fileService.importTimeTable(file,startDate,roomName);
     }
 
     /*@PostMapping("/addPic")

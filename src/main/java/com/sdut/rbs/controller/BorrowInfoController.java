@@ -76,12 +76,16 @@ public class BorrowInfoController {
 
         for(Object item : timeList){
             map.put("time",item.toString());
-            int code = borrowInfoService.borrow(map);
+            int code = borrowInfoService.isBorrowed(map);
             switch (code){
                 case 0: continue;
-                case 1:
-                case 2:return ResultVo.error("借用失败，请选择其他时间段");
+                case 1: return ResultVo.error("借用失败，请选择其他时间段");
             }
+        }
+
+        for(Object item : timeList){
+            map.put("time",item.toString());
+            borrowInfoService.borrow(map);
         }
 
         return ResultVo.ok("借用成功");

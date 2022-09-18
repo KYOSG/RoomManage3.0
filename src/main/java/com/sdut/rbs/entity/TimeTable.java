@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.nio.charset.StandardCharsets;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,39 +11,36 @@ public class TimeTable{
 
     public int startWeek;
     public int endWeek;
-    public String username;
-    public String userDepart;
-    public int timeId;
-    public String timeName;
+    public String name;
+    public String[] time;
     public String reason;
 
     public TimeTable(String rawData){
         String[] temp = rawData.split("/");
-
+        this.time = new String[2];
         this.reason = temp[0];
-        this.timeName = temp[1].substring(1,5);
 
-        String tt = new String(this.timeName);
+        String tt = new String(temp[1].substring(1,5));
         switch (tt) {
             case "1-2节":
-                this.timeName = "第一、二节";
-                this.timeId = 1;
+                this.time[0] = "第一节";
+                this.time[1] = "第二节";
                 break;
-            case "3-4":
-                this.timeName = "第三、四节";
-                this.timeId = 1;
+            case "3-4节":
+                this.time[0] = "第三节";
+                this.time[1] = "第四节";
                 break;
             case "5-6节":
-                this.timeName = "第五、六节";
-                this.timeId = 1;
+                this.time[0] = "第五节";
+                this.time[1] = "第六节";
                 break;
             case "7-8节":
-                this.timeName = "第七、八节";
-                this.timeId = 1;
+                this.time[0] = "第七节";
+                this.time[1] = "第八节";
                 break;
-            case "9-10节":
-                this.timeName = "第九、十节";
-                this.timeId = 1;
+            case "9-10":
+                this.time[0] = "第九节";
+                this.time[1] = "第十节";
                 break;
         }
 
@@ -58,9 +53,6 @@ public class TimeTable{
         this.startWeek = Integer.parseInt(startWeekTemp);
         this.endWeek = Integer.parseInt(endWeekTemp);
 
-        this.username = temp[2];
-        this.userDepart = temp[3];
-
-
+        this.name = temp[2];
     }
 }

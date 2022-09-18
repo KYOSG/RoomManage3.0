@@ -73,4 +73,14 @@ public class UserController  {
     public ResultVo remove(String id){
         return uerService.remove(id);
     }
+
+    @PostMapping("/changePwd")
+    @ResponseBody
+    public ResultVo changePwd(@RequestBody JSONObject jsonObject){
+        System.out.println(jsonObject);
+        String id = jsonObject.getString("userId");
+        String newPwd = jsonObject.getString("newPwd");
+        String oldPwd = jsonObject.getString("oldPwd");
+        return uerService.changePassword(id,oldPwd,newPwd);
+    }
 }

@@ -41,23 +41,33 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
         res.put("list",RBI);
         return ResultVo.ok(res);
     }
+
     @Override
-    public int borrow(Map<String,String>map){
+    public int isBorrowed(Map<String,String>map){
+        String date = map.get("date");
+        String time = map.get("time");
+        String roomName = map.get("roomName");
+        if (borrowedInfoDAO.isBorrowed(roomName, time, date) != null) {
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+    @Override
+    public ResultVo borrow(Map<String,String>map){
         try{
             synchronized (this) {//线程锁
                 String date = map.get("date");
                 String time = map.get("time");
                 String roomName = map.get("roomName");
-                if (borrowedInfoDAO.isBorrowed(roomName, time, date) != null) {
-                    return 1;
-                }
+                map.put("isAdmit","0");
                 borrowedInfoDAO.borrow(map);
-                return 0;
             }
         }catch (Exception e){
             System.out.println(e);
-            return 2;
+            return ResultVo.error(e.toString());
         }
+        return ResultVo.ok();
     }
 
     @Override

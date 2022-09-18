@@ -5,13 +5,11 @@ import com.sdut.rbs.entity.UsersEntity;
 import com.sdut.rbs.service.UserService;
 import com.sdut.rbs.utils.ResultVo;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,7 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVo checkLogin(String id, String pwd){
         //查询用户信息
-        UsersEntity user = userDAO.checkLogin(id);
+        UsersEntity user = userDAO.getUserById(id);
         //判断
         if (user == null){
             //用户名不存在
@@ -87,6 +85,22 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());
+        }
+        return ResultVo.ok();
+    }
+
+    @Override
+    public ResultVo changePassword(String id, String oldPwd, String newPwd) {
+        UsersEntity user = userDAO.getUserById(id);
+        if (user.getPassword().equals(oldPwd)){
+            try {
+                userDAO.changePwd(id,newPwd);
+            }catch (Exception e){
+                System.out.println(e);
+                return ResultVo.error();
+            }
+        }else {
+            return ResultVo.error("原密码错误");
         }
         return ResultVo.ok();
     }

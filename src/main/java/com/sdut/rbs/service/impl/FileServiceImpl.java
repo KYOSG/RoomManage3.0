@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
     private FileDao fileDao;
 
     @Override
-    public ResultVo importTimeTable(MultipartFile file, String startDate,String roomId) throws IOException, ParseException {
+    public ResultVo importTimeTable(MultipartFile file, String startDate,String roomName) throws IOException, ParseException {
         if (file.isEmpty()) {
             return ResultVo.error("无文件");
         }
@@ -73,24 +73,29 @@ public class FileServiceImpl implements FileService {
                     if (ttmp.length<=10){
 
                         TimeTable timeTable = new TimeTable(temp);
-                        map.put("username",timeTable.getUsername());
-                        map.put("userDepart", timeTable.getUserDepart());
-                        map.put("timeId",String.valueOf(timeTable.getTimeId()));
-                        map.put("timeName",timeTable.getTimeName());
+                        map.put("name",timeTable.getName());
+
                         map.put("reason",timeTable.getReason());
-                        map.put("roomId",roomId);
-                        map.put("roomName",roomId);
-
-                        map.put("applyTime",dateFormat.format(today));
-
+                        map.put("roomName",roomName);
+                        map.put("applyDate",dateFormat.format(today));
+                        map.put("isAdmit","1");
                         calendar.add(Calendar.DATE,+7*(timeTable.getStartWeek()-1));//设置开始周
+
                         try {
                             for(int k=timeTable.getStartWeek();k<=timeTable.getEndWeek();k++){
                                 map.put("date", formatter.format(calendar.getTime()));//日期单独处理
+                                map.put("time",timeTable.getTime()[0]);
+
                                 fileDao.addTimeTable(map);
+
+                                map.put("time",timeTable.getTime()[1]);
+
+                                fileDao.addTimeTable(map);
+
                                 calendar.add(Calendar.DATE,+7);
                             }
                         }catch (Exception e){
+                            System.out.println(e);
                             return ResultVo.error(String.valueOf(e));
                         }
                     }

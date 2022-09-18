@@ -20,7 +20,9 @@
         <where>
             <if test="map.date != ''">and date = #{map.date}</if>
             <if test="map.time != ''">and time = #{map.time}</if>
+            <if test="map.roomName != ''">and roomName = #{map.roomName}</if>
         </where>
+        order by applyDate desc
     </select>
 
     <!--Operator-->
@@ -28,7 +30,7 @@
         select * from room where name not in (
             select roomName
             from borrowInfo
-            where date = #{date}
+            where isAdmit != 0 and isAdmit != 1 and date = #{date}
               and
                 time in (
                      <foreach collection="timeList" item="item">
@@ -44,7 +46,7 @@
 
     <select id="borrow" parameterType="map" resultMap="borrowInfoMap">
         insert into borrowInfo(name, time, date, reason, applyDate, isAdmit, roomName)
-        values (#{name}, #{time},#{date},#{reason},#{applyDate},0,#{roomName})
+        values (#{name}, #{time},#{date},#{reason},#{applyDate},#{isAdmit},#{roomName})
     </select>
 
     <delete id="cancel">

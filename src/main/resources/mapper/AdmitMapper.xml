@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sdut.rbs.dao.AdmitDao">
+    <resultMap id="borrowInfoMap" type="com.sdut.rbs.entity.AdmitEntity">
+        <result column="id" property="id"/>
+        <result column="roomName" property="roomName"/>
+        <result column="name" property="name"/>
+        <result column="time" property="time"/>
+        <result column="date" property="date"/>
+        <result column="reason" property="reason"/>
+        <result column="applyDate" property="applyDate"/>
+        <result column="isAdmit" property="isAdmit"/>
+</resultMap>
+    <select id="getAllAdmitList" resultType="com.sdut.rbs.entity.AdmitEntity">
+        select * from RBS.borrowInfo where isAdmit = '0';
+    </select>
+
+    <update id="access">
+        update RBS.borrowInfo set isAdmit = '1' where id = #{id};
+    </update>
+
+    <update id="deny">
+        update RBS.borrowInfo set isAdmit = '2' where id = #{id};
+    </update>
+</mapper>
