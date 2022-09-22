@@ -49,9 +49,13 @@
         values (#{name}, #{time},#{date},#{reason},#{applyDate},#{isAdmit},#{roomName})
     </select>
 
+
     <delete id="cancel">
         delete from borrowInfo
         where id = #{id}
     </delete>
 
+    <select id="getAll" resultType="com.sdut.rbs.entity.BorrowInfoEntity">
+        select * from borrowInfo;
+    </select>
 </mapper>

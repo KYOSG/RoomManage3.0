@@ -20,6 +20,7 @@ public interface BorrowInfoService {
     public int isBorrowed (Map<String,String> map);
     public ResultVo borrow (Map<String,String> map);
     public ResultVo cancel (int id);//借用记录id
+    public List<BorrowInfoEntity> getAll();
 
 
 }

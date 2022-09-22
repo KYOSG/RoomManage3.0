@@ -80,4 +80,9 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
         }
         return ResultVo.ok();
     }
+
+    @Override
+    public List<BorrowInfoEntity> getAll(){
+        return borrowedInfoDAO.getAll();
+    }
 }

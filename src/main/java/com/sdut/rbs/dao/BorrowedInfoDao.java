@@ -16,4 +16,5 @@ public interface BorrowedInfoDao {
     public BorrowInfoEntity isBorrowed(@Param("roomName") String roomName,@Param("time") String time,@Param("date") String date);
     public BorrowInfoEntity borrow(Map<String,String>map);
     public void cancel(int id);
+    public List<BorrowInfoEntity> getAll();
 }
