@@ -4,9 +4,9 @@ spring:
 #    username: root
 #    password: Udkklzxc123.
   datasource:
-    url: jdbc:mysql://106.15.196.199:3306/RBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
-    username: root
-    password: 5236169Zz.
+    url: jdbc:mysql://:3306/RBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    username: 
+    password: 
 
 #mybatis-plus:
 #  configuration:
