@@ -22,6 +22,6 @@ public interface BorrowInfoService {
     public ResultVo cancel (int id);//借用记录id
     public List<BorrowInfoEntity> getAll();
 
-
+    public ResultVo getDataByDate(String date,String room);
 }
 

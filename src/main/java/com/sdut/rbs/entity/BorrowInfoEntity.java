@@ -45,7 +45,7 @@ public class BorrowInfoEntity implements Serializable {
 	 */
 	private String applyDate;
 	/**
-	 * 是否通过
+	 * 是否通过(0:待审核 1:通过 2:拒绝)
 	 */
 	private String isAdmit;
 	//教室名称

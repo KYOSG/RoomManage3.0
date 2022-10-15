@@ -17,4 +17,5 @@ public interface BorrowedInfoDao {
     public BorrowInfoEntity borrow(Map<String,String>map);
     public void cancel(int id);
     public List<BorrowInfoEntity> getAll();
+    public List<BorrowInfoEntity> getDataByDate(String date,String room);
 }

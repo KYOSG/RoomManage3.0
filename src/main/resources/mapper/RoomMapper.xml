@@ -15,7 +15,7 @@
 
     <select id="getAllRoom" resultMap="roomInfoMap">
         select *
-        from RBS.room
+        from room
     </select>
 
     <insert id="addRoom" parameterType="map">
@@ -29,10 +29,10 @@
 
     <select id="queryRoomByBorrowOptions" parameterType="map" resultMap="roomInfoMap">
         select *
-        from RBS.room
+        from room
         where name not in(
             select borrowInfo.roomName
-            from RBS.borrowInfo
+            from borrowInfo
             where date = #{date} and time = #{time}
         )
     </select>

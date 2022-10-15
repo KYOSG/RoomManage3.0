@@ -16,7 +16,7 @@
 
     <select id="queryRBIByOptions" parameterType="map" resultMap="borrowInfoMap">
         select *
-        from RBS.borrowInfo
+        from borrowInfo
         <where>
             <if test="map.date != ''">and date = #{map.date}</if>
             <if test="map.time != ''">and time = #{map.time}</if>
@@ -30,7 +30,7 @@
         select * from room where name not in (
             select roomName
             from borrowInfo
-            where isAdmit != 0 and isAdmit != 1 and date = #{date}
+            where isAdmit =1 and date = #{date}
               and
                 time in (
                      <foreach collection="timeList" item="item">
@@ -57,5 +57,15 @@
 
     <select id="getAll" resultType="com.sdut.rbs.entity.BorrowInfoEntity">
         select * from borrowInfo;
+    </select>
+
+    <select id="getDataByDate" resultType="com.sdut.rbs.entity.BorrowInfoEntity">
+        select *
+        from borrowInfo
+        where
+            date = #{date}
+         <if test="room!=null">
+            and roomName = #{room}
+         </if>
     </select>
 </mapper>

@@ -11,15 +11,15 @@
     </resultMap>
 
     <insert id="addTimeTable" parameterType="map">
-        insert into RBS.borrowInfo (name, time, date, reason, applyDate, isAdmit, roomName)
+        insert into borrowInfo (name, time, date, reason, applyDate, isAdmit, roomName)
         VALUES (#{name},#{time},#{date},#{reason},#{applyDate},1,#{roomName});
     </insert>
 
     <insert id="addPic" parameterType="map">
-        insert into RBS.picUrl(name, url) VALUES (#{map.name},#{map.url});
+        insert into picUrl(name, url) VALUES (#{map.name},#{map.url});
     </insert>
 
     <delete id="removePic">
-        delete from RBS.picUrl where url = #{url};
+        delete from picUrl where url = #{url};
     </delete>
 </mapper>

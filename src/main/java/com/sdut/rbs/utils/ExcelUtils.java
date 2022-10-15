@@ -38,7 +38,9 @@ public class ExcelUtils {
                 this.isEmpty = true;
                 return ;
             }
+
             this.checkWorkbook(this.workbook);
+
         } catch (IOException e) {
             e.printStackTrace();
         }finally {

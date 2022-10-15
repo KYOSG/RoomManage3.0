@@ -81,7 +81,7 @@ public class BorrowInfoController {
             int code = borrowInfoService.isBorrowed(map);
             switch (code){
                 case 0: continue;
-                case 1: return ResultVo.error("借用失败，请选择其他时间段");
+                case 1: return ResultVo.error("借用失败，所选时段教室被占用");
             }
         }
 
@@ -172,5 +172,16 @@ public class BorrowInfoController {
             row.createCell(5).setCellValue(item.getApplyDate());
         }
         return workbook;
+    }
+
+    @PostMapping("/getTableData")
+    @ResponseBody
+    public ResultVo getTableData(@RequestBody JSONObject jsonObject){
+        String data = jsonObject.getString("date");
+        String room = jsonObject.getString("roomName");
+        if (room.equals("")){
+            room = null;
+        }
+        return borrowInfoService.getDataByDate(data,room);
     }
 }

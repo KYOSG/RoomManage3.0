@@ -10,15 +10,15 @@
     </resultMap>
 
     <select id="getAllReason" resultMap="reasonMap">
-        select * from RBS.reason;
+        select * from reason;
     </select>
 
     <insert id="add">
-        insert into RBS.reason(name)values (#{name});
+        insert into reason(name)values (#{name});
     </insert>
 
     <delete id="remove">
-        delete from RBS.reason where id = #{id};
+        delete from reason where id = #{id};
     </delete>
 
 </mapper>

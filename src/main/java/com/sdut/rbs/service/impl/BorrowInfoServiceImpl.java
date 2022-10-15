@@ -1,11 +1,14 @@
 package com.sdut.rbs.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sdut.rbs.dao.TimeOptionDao;
 import com.sdut.rbs.entity.RoomEntity;
+import com.sdut.rbs.entity.TimeOptionEntity;
 import com.sdut.rbs.service.BorrowInfoService;
 import com.sdut.rbs.utils.ResultVo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +23,8 @@ import javax.annotation.Resource;
 public class BorrowInfoServiceImpl implements BorrowInfoService {
     @Resource
     private BorrowedInfoDao borrowedInfoDAO;
-
+    @Resource
+    private TimeOptionDao timeOptionDao;
     @Override
     public ResultVo queryRBIByOptions(Map<String,String> map,int pageNum,int pageSize) {
         Page<BorrowInfoEntity> page = new Page<>(pageNum,pageSize);
@@ -84,5 +88,33 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     @Override
     public List<BorrowInfoEntity> getAll(){
         return borrowedInfoDAO.getAll();
+    }
+
+    @Override
+    public ResultVo getDataByDate(String date,String room) {
+
+        List<BorrowInfoEntity> list = borrowedInfoDAO.getDataByDate(date,room);
+        Map<String,List<String>> tempMap = new HashMap<>();
+        //获取所有时间（按顺序）
+        List<TimeOptionEntity> timeOptionList = timeOptionDao.getAllTime();
+
+        for (TimeOptionEntity time : timeOptionList){
+            List<String> rooms = new ArrayList<>();
+            tempMap.put(time.getName(),rooms);
+        }
+
+        for (BorrowInfoEntity item : list){
+            tempMap.get(item.getTime()).add(item.getRoomName());
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        List<List<String>> res = new ArrayList<>();
+        //拼装结果
+        for (TimeOptionEntity key: timeOptionList){
+            res.add(tempMap.get(key.getName()));
+        }
+
+        map.put("list",res);
+        return ResultVo.ok(map);
     }
 }

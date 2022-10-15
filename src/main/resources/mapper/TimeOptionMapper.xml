@@ -10,15 +10,15 @@
     </resultMap>
 
     <select id="getAllTime" resultMap="timeOptionMap">
-        select * from RBS.timeOption;
+        select * from timeOption;
     </select>
 
     <insert id="add">
-        insert into RBS.timeOption(name)values (#{name});
+        insert into timeOption(name)values (#{name});
     </insert>
 
     <delete id="remove">
-        delete from RBS.timeOption where id = #{id};
+        delete from timeOption where id = #{id};
     </delete>
 
 </mapper>
