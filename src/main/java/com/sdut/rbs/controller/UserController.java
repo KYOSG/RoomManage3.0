@@ -45,7 +45,7 @@ public class UserController  {
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setId(jsonObject.getString("id"));
         usersEntity.setPassword(jsonObject.getString("password"));
-        usersEntity.setName(jsonObject.getString("name"));
+        usersEntity.setUsername(jsonObject.getString("name"));
         usersEntity.setRole(jsonObject.getString("role"));
         List<UsersEntity> list = new ArrayList<>();
         list.add(usersEntity);
@@ -54,8 +54,8 @@ public class UserController  {
 
     @GetMapping("/getUserByName")
     @ResponseBody
-    public ResultVo getUserByName(@RequestParam  String name){
-        return uerService.getUserByName(name);
+    public ResultVo getUserByName(@RequestParam  String username){
+        return uerService.getUserByName(username);
     }
 
     @PostMapping("/updateUser")
@@ -63,7 +63,7 @@ public class UserController  {
     public ResultVo updateUser(@RequestBody JSONObject jsonObject){
         Map<String,String> map = new HashMap<>();
         map.put("id",jsonObject.getString("id"));
-        map.put("name",jsonObject.getString("name"));
+        map.put("username",jsonObject.getString("username"));
         map.put("role",jsonObject.getString("role"));
         map.put("password",jsonObject.getString("password"));
         return uerService.updateUser(map);

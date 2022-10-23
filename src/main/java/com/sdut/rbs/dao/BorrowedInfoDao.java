@@ -18,4 +18,5 @@ public interface BorrowedInfoDao {
     public void cancel(int id);
     public List<BorrowInfoEntity> getAll();
     public List<BorrowInfoEntity> getDataByDate(String date,String room);
+    public void insert(BorrowInfoEntity item);
 }

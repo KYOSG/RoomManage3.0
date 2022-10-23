@@ -60,8 +60,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultVo getUserByName(String name) {
-        UsersEntity usersEntity = userDAO.getUserByName(name);
+    public ResultVo getUserByName(String username) {
+        UsersEntity usersEntity = userDAO.getUserByName(username);
         Map<String,Object> map = new HashMap<>();
         map.put("user",usersEntity);
         return ResultVo.ok(map);

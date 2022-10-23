@@ -66,11 +66,11 @@ public class BorrowInfoController {
     @PostMapping(value = "/borrow")
     @ResponseBody
     public ResultVo borrowRoom(@RequestBody JSONObject jsonObject){
+        System.out.println(jsonObject);
         JSONArray timeList = jsonObject.getJSONArray("time");
 
         Map<String,String> map = new HashMap<>();
-        map.put("name",jsonObject.getString("name"));
-
+        map.put("name",jsonObject.getString("username"));
         map.put("date",jsonObject.getString("date"));
         map.put("reason",jsonObject.getString("reason"));
         map.put("applyDate",jsonObject.getString("applyDate"));

@@ -13,7 +13,7 @@
         <result column="applyDate" property="applyDate"/>
         <result column="isAdmit" property="isAdmit"/>
 </resultMap>
-
+    
     <select id="queryRBIByOptions" parameterType="map" resultMap="borrowInfoMap">
         select *
         from borrowInfo
@@ -68,4 +68,9 @@
             and roomName = #{room}
          </if>
     </select>
+
+    <insert id="insert" parameterType="object">
+        insert into borrowInfo (name, time, date, reason, applyDate, isAdmit, roomName)
+            values (#{name},#{time},#{date},#{reason},#{applyDate},#{isAdmit},#{roomName})
+    </insert>
 </mapper>

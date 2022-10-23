@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sdut.rbs.dao.SpecialDao">
+    <resultMap id="borrowInfoMap" type="com.sdut.rbs.entity.OldTable">
+        <result column="id" property="id"/>
+        <result column="roomName" property="roomName"/>
+        <result column="name" property="name"/>
+        <result column="time" property="time"/>
+        <result column="date" property="date"/>
+        <result column="reason" property="reason"/>
+        <result column="applyDate" property="applyDate"/>
+        <result column="isAdmit" property="isAdmit"/>
+</resultMap>
+    <select id="getOld" resultType="com.sdut.rbs.entity.OldTable">
+        select * from temp.borrowInfo
+    </select>
+
+</mapper>

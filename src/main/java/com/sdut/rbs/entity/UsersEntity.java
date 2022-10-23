@@ -27,7 +27,7 @@ public class UsersEntity implements Serializable {
 	/**
 	 * 姓名
 	 */
-	private String name;
+	private String username;
 	/**
 	 * 身份
 	 */
@@ -36,5 +36,13 @@ public class UsersEntity implements Serializable {
 	 * 密码
 	 */
 	private String password;
+	/*
+	* 班级
+	* */
+	private String userDepart;
+	/*
+	* 部门
+	* */
+	private String department;
 
 }

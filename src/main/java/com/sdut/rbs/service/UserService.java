@@ -10,7 +10,7 @@ public interface UserService {
     public ResultVo checkLogin(String userId, String pwd);
     public ResultVo getAllUser();
     public ResultVo addUser(List<UsersEntity> list);
-    public ResultVo getUserByName(String name);
+    public ResultVo getUserByName(String username);
     public ResultVo updateUser(Map<String,String> map);
     public ResultVo remove(String id);
     public ResultVo changePassword(String id,String oldPwd,String newPwd);

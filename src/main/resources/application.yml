@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://106.15.196.199:3306/RBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+#    url: jdbc:mysql://106.15.196.199:3306/RBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
 #    url: jdbc:mysql://211.64.28.110:3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
-#    url: jdbc:mysql://106.15.196.199:3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://106.15.196.199:3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: root
     password: 5236169Zz.
 #    password: Udkklzxc123.
