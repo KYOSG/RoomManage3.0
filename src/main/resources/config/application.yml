@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: pro
+
+---
+# 生产环境
+spring:
+  on-profiles: pro
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 5236169Zz.
+
+
+logging:
+  level:
+    root: warn

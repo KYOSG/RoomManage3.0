@@ -1,9 +1,42 @@
 spring:
+  profiles:
+    active: dev
+
+---
+# 生产环境
+spring:
+  on-profiles: pro
   datasource:
-#    url: jdbc:mysql://106.15.196.199:3306/RBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
-#    url: jdbc:mysql://211.64.28.110:3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
-    url: jdbc:mysql://106.15.196.199:3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
-    username: root
-    password: 5236169Zz.
-#    password: Udkklzxc123.
+    druid:
+      url: jdbc:mysql://localhost:3306/newRBS?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 12345678
+
+
+logging:
+  level:
+    root: warn
+
+---
+# 开发环境
+spring:
+  on-profiles: dev
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/rbs?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 12345678
+logging:
+  level:
+    root: info
+
+#logging:
+#  file:
+#    name: server.log
+#  logback:
+#    rollingpolicy:
+#      # 设置log文件的最大大小，超过1MB自动存储为新文件
+#      max-file-size: 1MB
+#      # 设置log文件命名规则：server.日期.序号.log
+#      file-name-pattern: server.%d{yyyy-MM-dd}.%i.log
 

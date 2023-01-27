@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.sdut.rbs.dao.RoomDao">
+<mapper namespace="com.sdut.rbs.mapper.RoomMapper">
 
     <resultMap id="roomInfoMap" type="com.sdut.rbs.entity.RoomEntity">
         <result property="id" column="id"/>

@@ -1,4 +1,4 @@
-package com.sdut.rbs.dao;
+package com.sdut.rbs.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sdut.rbs.entity.BorrowInfoEntity;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface BorrowedInfoDao {
+public interface BorrowedInfoMapper {
     public Page<BorrowInfoEntity>  queryRBIByOptions(Page<BorrowInfoEntity> page,Map<String, String> map);
     public List<RoomEntity> notBorrowedYet(@Param("timeList") List<String> timeList,@Param("date") String date);
     public BorrowInfoEntity isBorrowed(@Param("roomName") String roomName,@Param("time") String time,@Param("date") String date);

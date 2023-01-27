@@ -35,7 +35,9 @@ public class TimeOptionController {
     @GetMapping("/addTimeOption")
     @ResponseBody
     public ResultVo addTimeOption(@RequestParam String name){
-
+        if (name.length() == 0){
+            return ResultVo.error("名称不能为空");
+        }
         return timeOptionService.add(name);
     }
 

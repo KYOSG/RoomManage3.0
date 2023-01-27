@@ -1,14 +1,13 @@
-package com.sdut.rbs.dao;
+package com.sdut.rbs.mapper;
 
 import com.sdut.rbs.entity.RoomEntity;
-import com.sdut.rbs.utils.ResultVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface RoomDao {
+public interface RoomMapper {
     public List<RoomEntity> getAllRoom();
 
     public void addRoom(Map<String,String> map);

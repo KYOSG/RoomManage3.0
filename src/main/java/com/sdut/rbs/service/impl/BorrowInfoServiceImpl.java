@@ -1,7 +1,7 @@
 package com.sdut.rbs.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sdut.rbs.dao.TimeOptionDao;
+import com.sdut.rbs.mapper.TimeOptionMapper;
 import com.sdut.rbs.entity.RoomEntity;
 import com.sdut.rbs.entity.TimeOptionEntity;
 import com.sdut.rbs.service.BorrowInfoService;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sdut.rbs.dao.BorrowedInfoDao;
+import com.sdut.rbs.mapper.BorrowedInfoMapper;
 import com.sdut.rbs.entity.BorrowInfoEntity;
 
 import javax.annotation.Resource;
@@ -22,13 +22,13 @@ import javax.annotation.Resource;
 @Service("borrowInfoService")
 public class BorrowInfoServiceImpl implements BorrowInfoService {
     @Resource
-    private BorrowedInfoDao borrowedInfoDAO;
+    private BorrowedInfoMapper borrowedInfoMapper;
     @Resource
-    private TimeOptionDao timeOptionDao;
+    private TimeOptionMapper timeOptionMapper;
     @Override
     public ResultVo queryRBIByOptions(Map<String,String> map,int pageNum,int pageSize) {
         Page<BorrowInfoEntity> page = new Page<>(pageNum,pageSize);
-        borrowedInfoDAO.queryRBIByOptions(page,map);
+        borrowedInfoMapper.queryRBIByOptions(page,map);
 
         Map<String,Object> res = new HashMap<>();
         res.put("RBI",page.getRecords());
@@ -40,7 +40,7 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
 
     @Override
     public ResultVo notBorrowedYet(List<String> timeList,String date){
-        List<RoomEntity> RBI = borrowedInfoDAO.notBorrowedYet(timeList,date);
+        List<RoomEntity> RBI = borrowedInfoMapper.notBorrowedYet(timeList,date);
         Map<String,Object> res = new HashMap<>();
         res.put("list",RBI);
         return ResultVo.ok(res);
@@ -51,7 +51,7 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
         String date = map.get("date");
         String time = map.get("time");
         String roomName = map.get("roomName");
-        if (borrowedInfoDAO.isBorrowed(roomName, time, date) != null) {
+        if (borrowedInfoMapper.isBorrowed(roomName, time, date) != null) {
             return 1;
         }else {
             return 0;
@@ -65,7 +65,7 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
                 String time = map.get("time");
                 String roomName = map.get("roomName");
                 map.put("isAdmit","0");
-                borrowedInfoDAO.borrow(map);
+                borrowedInfoMapper.borrow(map);
             }
         }catch (Exception e){
             System.out.println(e);
@@ -77,7 +77,7 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
     @Override
     public ResultVo cancel(int id) {
         try {
-            borrowedInfoDAO.cancel(id);
+            borrowedInfoMapper.cancel(id);
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());
@@ -87,16 +87,16 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
 
     @Override
     public List<BorrowInfoEntity> getAll(){
-        return borrowedInfoDAO.getAll();
+        return borrowedInfoMapper.getAll();
     }
 
     @Override
     public ResultVo getDataByDate(String date,String room) {
 
-        List<BorrowInfoEntity> list = borrowedInfoDAO.getDataByDate(date,room);
+        List<BorrowInfoEntity> list = borrowedInfoMapper.getDataByDate(date,room);
         Map<String,List<String>> tempMap = new HashMap<>();
         //获取所有时间（按顺序）
-        List<TimeOptionEntity> timeOptionList = timeOptionDao.getAllTime();
+        List<TimeOptionEntity> timeOptionList = timeOptionMapper.getAllTime();
 
         for (TimeOptionEntity time : timeOptionList){
             List<String> rooms = new ArrayList<>();

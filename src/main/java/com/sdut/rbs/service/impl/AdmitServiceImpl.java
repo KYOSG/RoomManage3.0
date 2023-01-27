@@ -1,6 +1,6 @@
 package com.sdut.rbs.service.impl;
 
-import com.sdut.rbs.dao.AdmitDao;
+import com.sdut.rbs.mapper.AdmitMapper;
 import com.sdut.rbs.entity.AdmitEntity;
 import com.sdut.rbs.service.AdmitService;
 import com.sdut.rbs.utils.ResultVo;
@@ -14,11 +14,11 @@ import java.util.Map;
 @Service
 public class AdmitServiceImpl implements AdmitService {
     @Resource
-    private AdmitDao admitDao;
+    private AdmitMapper admitMapper;
 
     @Override
     public ResultVo getAllAdmitList() {
-        List<AdmitEntity> admitEntityList = admitDao.getAllAdmitList();
+        List<AdmitEntity> admitEntityList = admitMapper.getAllAdmitList();
         Map<String,Object> map = new HashMap<>();
         map.put("list",admitEntityList);
         return ResultVo.ok(map);
@@ -27,7 +27,7 @@ public class AdmitServiceImpl implements AdmitService {
     @Override
     public ResultVo access(int id) {
         try{
-            admitDao.access(id);
+            admitMapper.access(id);
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());
@@ -38,7 +38,7 @@ public class AdmitServiceImpl implements AdmitService {
     @Override
     public ResultVo deny(int id) {
         try{
-            admitDao.deny(id);
+            admitMapper.deny(id);
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());

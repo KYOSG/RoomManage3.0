@@ -39,6 +39,7 @@ public class ReasonController {
     @GetMapping("/addReason")
     @ResponseBody
     public ResultVo addReason(@RequestParam String name){
+
         return reasonService.add(name);
     }
 

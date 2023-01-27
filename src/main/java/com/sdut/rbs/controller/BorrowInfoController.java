@@ -67,7 +67,8 @@ public class BorrowInfoController {
     @ResponseBody
     public ResultVo borrowRoom(@RequestBody JSONObject jsonObject){
         System.out.println(jsonObject);
-        JSONArray timeList = jsonObject.getJSONArray("time");
+
+
 
         Map<String,String> map = new HashMap<>();
         map.put("name",jsonObject.getString("username"));
@@ -76,6 +77,7 @@ public class BorrowInfoController {
         map.put("applyDate",jsonObject.getString("applyDate"));
         map.put("roomName",jsonObject.getString("roomName"));
 
+        JSONArray timeList = jsonObject.getJSONArray("time");
         for(Object item : timeList){
             map.put("time",item.toString());
             int code = borrowInfoService.isBorrowed(map);

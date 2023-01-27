@@ -1,30 +1,39 @@
 package com.sdut.rbs.service.impl;
 
-import com.sdut.rbs.dao.UserDAO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sdut.rbs.mapper.UserMapper;
 import com.sdut.rbs.entity.UsersEntity;
 import com.sdut.rbs.service.UserService;
 import com.sdut.rbs.utils.ResultVo;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
+
     @Resource
-    private UserDAO userDAO;
+    private UserMapper userMapper;
     @Override
     public ResultVo checkLogin(String id, String pwd){
         //查询用户信息
-        UsersEntity user = userDAO.getUserById(id);
+        UsersEntity user = userMapper.getUserById(id);
         //判断
         if (user == null){
             //用户名不存在
             return ResultVo.error("用户名不存在，请联系管理员注册");
         }else {
             //对密码加密
+            pwd = DigestUtils.md5DigestAsHex(pwd.getBytes(StandardCharsets.UTF_8));
 
             //使用加密后的密码与user中的密码进行匹配
             if (user.getPassword().equals(pwd) ){
@@ -41,17 +50,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultVo getAllUser() {
-        List<UsersEntity> usersEntities = userDAO.getAllUser();
+    public ResultVo getAllUser(int pageNum,int pageSize) {
+        Page<UsersEntity> page = new Page<>(pageNum,pageSize);
+
+        userMapper.getAllUserByPage(page);
+
         Map<String,Object> map = new HashMap<>();
-        map.put("userList",usersEntities);
+        map.put("userList",page.getRecords());
+        map.put("total",page.getTotal());
         return ResultVo.ok(map);
     }
 
     @Override
     public ResultVo addUser(List<UsersEntity> list) {
         try{
-            userDAO.addUser(list);
+            userMapper.addUser(list);
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());
@@ -61,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultVo getUserByName(String username) {
-        UsersEntity usersEntity = userDAO.getUserByName(username);
+        UsersEntity usersEntity = userMapper.getUserByName(username);
         Map<String,Object> map = new HashMap<>();
         map.put("user",usersEntity);
         return ResultVo.ok(map);
@@ -70,7 +83,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVo updateUser(Map<String, String> map) {
         try{
-            userDAO.updateUser(map);
+            map.put("password",DigestUtils.md5DigestAsHex(map.get("password").getBytes(StandardCharsets.UTF_8)));
+            userMapper.updateUser(map);
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());
@@ -81,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVo remove(String id) {
         try{
-            userDAO.remove(id);
+            userMapper.remove(id);
         }catch (Exception e){
             System.out.println(e);
             return ResultVo.error(e.toString());
@@ -91,10 +105,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultVo changePassword(String id, String oldPwd, String newPwd) {
-        UsersEntity user = userDAO.getUserById(id);
+        UsersEntity user = userMapper.getUserById(id);
         if (user.getPassword().equals(oldPwd)){
             try {
-                userDAO.changePwd(id,newPwd);
+                newPwd = DigestUtils.md5DigestAsHex(newPwd.getBytes(StandardCharsets.UTF_8));
+                System.out.println(newPwd);
+                userMapper.changePwd(id,newPwd);
             }catch (Exception e){
                 System.out.println(e);
                 return ResultVo.error();

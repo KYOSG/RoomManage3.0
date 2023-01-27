@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.sdut.rbs.dao.BorrowedInfoDao">
+<mapper namespace="com.sdut.rbs.mapper.BorrowedInfoMapper">
     <resultMap id="borrowInfoMap" type="com.sdut.rbs.entity.BorrowInfoEntity">
         <result column="id" property="id"/>
         <result column="roomName" property="roomName"/>
@@ -26,7 +26,7 @@
     </select>
 
     <!--Operator-->
-    <select id="notBorrowedYet" resultMap="com.sdut.rbs.dao.RoomDao.roomInfoMap">
+    <select id="notBorrowedYet" resultMap="com.sdut.rbs.mapper.RoomMapper.roomInfoMap">
         select * from room where name not in (
             select roomName
             from borrowInfo

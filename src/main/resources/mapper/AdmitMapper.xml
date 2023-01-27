@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-/mybatis.org/DTD Mapper 3.0/EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.sdut.rbs.dao.AdmitDao">
+<mapper namespace="com.sdut.rbs.mapper.AdmitMapper">
     <resultMap id="borrowInfoMap" type="com.sdut.rbs.entity.AdmitEntity">
         <result column="id" property="id"/>
         <result column="roomName" property="roomName"/>

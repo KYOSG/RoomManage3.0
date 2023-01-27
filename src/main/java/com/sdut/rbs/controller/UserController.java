@@ -24,10 +24,10 @@ public class UserController  {
     @Resource
     private UserService uerService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     @ResponseBody
     public ResultVo login(@RequestBody JSONObject jsonParam){
-        String id = jsonParam.getString("userId");
+         String id = jsonParam.getString("userId");
         String pwd = jsonParam.getString("pwd");
 
         return uerService.checkLogin(id,pwd);
@@ -35,8 +35,8 @@ public class UserController  {
 
     @GetMapping("/getAllUser")
     @ResponseBody
-    public ResultVo getAllUser(){
-        return uerService.getAllUser();
+    public ResultVo getAllUser(@RequestParam int pageNum,int pageSize){
+        return uerService.getAllUser(pageNum,pageSize);
     }
 
     @PostMapping("/addUser")
@@ -45,7 +45,8 @@ public class UserController  {
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setId(jsonObject.getString("id"));
         usersEntity.setPassword(jsonObject.getString("password"));
-        usersEntity.setUsername(jsonObject.getString("name"));
+        usersEntity.setUsername(jsonObject.getString("username"));
+        usersEntity.setUserDepart(jsonObject.getString("userDepart"));
         usersEntity.setRole(jsonObject.getString("role"));
         List<UsersEntity> list = new ArrayList<>();
         list.add(usersEntity);
@@ -57,6 +58,8 @@ public class UserController  {
     public ResultVo getUserByName(@RequestParam  String username){
         return uerService.getUserByName(username);
     }
+
+    
 
     @PostMapping("/updateUser")
     @ResponseBody

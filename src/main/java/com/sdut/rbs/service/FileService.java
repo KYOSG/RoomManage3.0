@@ -10,5 +10,4 @@ import java.text.ParseException;
 public interface FileService {
     public ResultVo importTimeTable(MultipartFile file, String startDate,String roomName) throws IOException, ParseException;
 
-//    public ResultVo addPic(MultipartFile file,String name);
 }
