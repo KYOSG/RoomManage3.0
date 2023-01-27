@@ -1,19 +1,10 @@
 package com.sdut.rbs.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import com.alibaba.fastjson.JSONObject;
+import com.sdut.rbs.service.ReasonService;
 import com.sdut.rbs.utils.ResultVo;
-
 import org.springframework.web.bind.annotation.*;
 
-import com.sdut.rbs.entity.ReasonEntity;
-import com.sdut.rbs.service.ReasonService;
-
-
 import javax.annotation.Resource;
-
 
 
 /**
@@ -25,27 +16,25 @@ import javax.annotation.Resource;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/reason")
 public class ReasonController {
     @Resource
     private ReasonService reasonService;
 
-    @GetMapping("/getAllReasonOption")
+    @GetMapping("/reason")
     @ResponseBody
-    public ResultVo getAllReasonOption(){
+    public ResultVo getAllReasonOption() {
         return reasonService.getAllReasonOption();
     }
 
-    @GetMapping("/addReason")
+    @PostMapping("/reason/{name}")
     @ResponseBody
-    public ResultVo addReason(@RequestParam String name){
-
+    public ResultVo addReason(@PathVariable String name) {
         return reasonService.add(name);
     }
 
-    @GetMapping("/removeReason")
+    @DeleteMapping("/reason")
     @ResponseBody
-    public ResultVo removeReason(@RequestParam int id){
+    public ResultVo removeReason(@RequestParam int id) {
         return reasonService.remove(id);
     }
 

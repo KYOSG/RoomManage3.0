@@ -1,23 +1,22 @@
 package com.sdut.rbs.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.sdut.rbs.entity.BorrowInfoEntity;
+import com.sdut.rbs.service.BorrowInfoService;
+import com.sdut.rbs.utils.ResultVo;
+import org.apache.poi.hssf.usermodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.sdut.rbs.service.BorrowInfoService;
-import com.sdut.rbs.utils.ResultVo;
-
-import org.apache.poi.hssf.usermodel.*;
-import org.springframework.web.bind.annotation.*;
-
-import com.sdut.rbs.entity.BorrowInfoEntity;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -28,82 +27,84 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2022-09-03 09:32:18
  */
 @RestController
-@RequestMapping("/borrowInfo")
 @CrossOrigin
 public class BorrowInfoController {
+    private static final Logger log = LoggerFactory.getLogger(BorrowInfoController.class);
     @Resource
     private BorrowInfoService borrowInfoService;
 
     //获取借用记录
-    @RequestMapping(value = "/queryRBIByOptions",method = RequestMethod.POST)
+    @PostMapping("/borrowInfo")
     public ResultVo queryRBIByOptions(@RequestBody JSONObject jsonObject) {
-        Map<String,String> map = new HashMap<>();
+        log.info(jsonObject.toString());
+        Map<String, String> map = new HashMap<>();
 
-        map.put("time",jsonObject.getString("time"));
-        map.put("date",jsonObject.getString("date"));
-        map.put("roomName",jsonObject.getString("roomName"));
+        map.put("time", jsonObject.getString("time"));
+        map.put("date", jsonObject.getString("date"));
+        map.put("roomName", jsonObject.getString("roomName"));
 
         int pageNum = jsonObject.getIntValue("pageNum");
         int pageSize = jsonObject.getIntValue("pageSize");
-        return borrowInfoService.queryRBIByOptions(map,pageNum,pageSize);
+        return borrowInfoService.queryRBIByOptions(map, pageNum, pageSize);
     }
 
-    @PostMapping(value = "/notBorrowedYet")
+    @PostMapping(value = "/borrowInfo/notBorrowedYet")
     @ResponseBody
-    public ResultVo notBorrowedYet(@RequestBody JSONObject jsonObject){
+    public ResultVo notBorrowedYet(@RequestBody JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("time");
 
         String date = jsonObject.getString("date");
 
         List<String> timeList = new ArrayList<>();
-        for (Object item : jsonArray){
+        for (Object item : jsonArray) {
             timeList.add(item.toString());
         }
 
-        return borrowInfoService.notBorrowedYet(timeList,date);
+        return borrowInfoService.notBorrowedYet(timeList, date);
     }
 
-    @PostMapping(value = "/borrow")
+    @PostMapping("/borrowInfo/borrow")
     @ResponseBody
-    public ResultVo borrowRoom(@RequestBody JSONObject jsonObject){
+    public ResultVo borrowRoom(@RequestBody JSONObject jsonObject) {
         System.out.println(jsonObject);
 
 
-
-        Map<String,String> map = new HashMap<>();
-        map.put("name",jsonObject.getString("username"));
-        map.put("date",jsonObject.getString("date"));
-        map.put("reason",jsonObject.getString("reason"));
-        map.put("applyDate",jsonObject.getString("applyDate"));
-        map.put("roomName",jsonObject.getString("roomName"));
+        Map<String, String> map = new HashMap<>();
+        map.put("name", jsonObject.getString("username"));
+        map.put("date", jsonObject.getString("date"));
+        map.put("reason", jsonObject.getString("reason"));
+        map.put("applyDate", jsonObject.getString("applyDate"));
+        map.put("roomName", jsonObject.getString("roomName"));
 
         JSONArray timeList = jsonObject.getJSONArray("time");
-        for(Object item : timeList){
-            map.put("time",item.toString());
+        for (Object item : timeList) {
+            map.put("time", item.toString());
             int code = borrowInfoService.isBorrowed(map);
-            switch (code){
-                case 0: continue;
-                case 1: return ResultVo.error("借用失败，所选时段教室被占用");
+            switch (code) {
+                case 0:
+                    continue;
+                case 1:
+                    return ResultVo.error("借用失败，所选时段教室被占用");
             }
         }
 
-        for(Object item : timeList){
-            map.put("time",item.toString());
+        for (Object item : timeList) {
+            map.put("time", item.toString());
             borrowInfoService.borrow(map);
         }
 
         return ResultVo.ok("借用成功");
     }
 
-    @GetMapping( "/cancel")
+    @DeleteMapping("/borrowInfo/{id}")
     @ResponseBody
-    public ResultVo cancel(@RequestParam int id){
+    public ResultVo cancel(@PathVariable int id) {
         return borrowInfoService.cancel(id);
     }
 
-    @GetMapping(value = "/exportExcel")
+    @GetMapping(value = "/borrowInfo/exportExcel")
     @ResponseBody
-    public void exportExcel(HttpServletResponse response){
+    public void exportExcel(HttpServletResponse response) {
         List<BorrowInfoEntity> borrowInfoEntityList = borrowInfoService.getAll();
 
         try {
@@ -130,7 +131,7 @@ public class BorrowInfoController {
         }
     }
 
-    private HSSFWorkbook exportExcel(List<BorrowInfoEntity> borrowInfoEntityList){
+    private HSSFWorkbook exportExcel(List<BorrowInfoEntity> borrowInfoEntityList) {
 
         // 创建一个HSSFWorkbook，对应一个Excel文件
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -162,9 +163,9 @@ public class BorrowInfoController {
         cell.setCellValue("申请时间");
         // 创建内容
         int n = borrowInfoEntityList.size();
-        for (int i=0;i<n;i++) {
+        for (int i = 0; i < n; i++) {
             BorrowInfoEntity item = borrowInfoEntityList.get(i);
-            row = sheet.createRow(i+1);
+            row = sheet.createRow(i + 1);
             //创建HSSFCell对象 设置单元格的值
             row.createCell(0).setCellValue(item.getDate());
             row.createCell(1).setCellValue(item.getTime());
@@ -176,14 +177,14 @@ public class BorrowInfoController {
         return workbook;
     }
 
-    @PostMapping("/getTableData")
+    @PostMapping("/borrowInfo/getTableData")
     @ResponseBody
-    public ResultVo getTableData(@RequestBody JSONObject jsonObject){
+    public ResultVo getTableData(@RequestBody JSONObject jsonObject) {
         String data = jsonObject.getString("date");
         String room = jsonObject.getString("roomName");
-        if (room.equals("")){
+        if (room.equals("")) {
             room = null;
         }
-        return borrowInfoService.getDataByDate(data,room);
+        return borrowInfoService.getDataByDate(data, room);
     }
 }

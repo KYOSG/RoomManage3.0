@@ -7,27 +7,26 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/AdmitController")
 @CrossOrigin
 public class AdmitController {
     @Resource
     private AdmitService admitService;
 
-    @GetMapping("/getAllAdmit")
+    @GetMapping("/admit")
     @ResponseBody
-    public ResultVo getAllAdmit(){
+    public ResultVo getAllAdmit() {
         return admitService.getAllAdmitList();
     }
 
-    @GetMapping("/access")
+    @PutMapping("/admit/access/{id}")
     @ResponseBody
-    public ResultVo getAllAdmit(@RequestParam("id") int id){
+    public ResultVo getAllAdmit(@PathVariable("id") int id) {
         return admitService.access(id);
     }
 
-    @GetMapping("/deny")
+    @PutMapping("/admit/deny/{id}")
     @ResponseBody
-    public ResultVo deny(@RequestParam("id") int id){
+    public ResultVo deny(@PathVariable("id") int id) {
         return admitService.deny(id);
     }
 }

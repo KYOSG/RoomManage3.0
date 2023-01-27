@@ -1,13 +1,10 @@
 package com.sdut.rbs.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.sdut.rbs.service.TimeOptionService;
 import com.sdut.rbs.utils.ResultVo;
-
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-
 
 
 /**
@@ -19,31 +16,29 @@ import javax.annotation.Resource;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/timeOption")
-
 public class TimeOptionController {
     @Resource
     private TimeOptionService timeOptionService;
 
-    @GetMapping("/getAllTimeOption")
+    @GetMapping("/timeOption")
     @ResponseBody
-    public ResultVo getTimeOptionByOptions(){
+    public ResultVo getTimeOptionByOptions() {
 
         return timeOptionService.getAllTimeOption();
     }
 
-    @GetMapping("/addTimeOption")
+    @PostMapping("/timeOption/{name}")
     @ResponseBody
-    public ResultVo addTimeOption(@RequestParam String name){
-        if (name.length() == 0){
+    public ResultVo addTimeOption(@PathVariable String name) {
+        if (name.length() == 0) {
             return ResultVo.error("名称不能为空");
         }
         return timeOptionService.add(name);
     }
 
-    @GetMapping("/removeTimeOption")
+    @DeleteMapping("/timeOption/{id}")
     @ResponseBody
-    public ResultVo removeTimeOption(@RequestParam int id){
+    public ResultVo removeTimeOption(@PathVariable int id) {
 
         return timeOptionService.remove(id);
     }
